@@ -64,21 +64,65 @@ sample=[
 
 
 //for testing functions
-console.log(givePossibleRow())
 
 
 // givePosibleSoln()
 
 function givePosibleSolns(){
-    
     allPossibleRows=[];
     allPossibleSoduko=[];
+    allRealSudoku=[];
 
+    let found1=false
     
+    let prod=1
+    for(let i=362880;i>=362870;i--){
+        prod=prod*i
+        console.log(prod)
+    }
+    noAll=prod
+
 
     while(allPossibleSoduko.length<noAll){
 
+        tempSud=[]
+        while(tempSud.length<9){
+            index=randomInteger(0,noAll-1)  //row at index selected
+            //if row is not yet in temp sudoku push it
+            for(let i=0;i<tempSud.length;i++){
+                if(tempSud[i].equals(allPossibleRows[index])){
+                    found1=true
+                    break
+                }
+            }
+            if(!found1){
+                tempSud.push(allPossibleRows[index])
+            }
+           
+        }
+
+
+        found1=false  //return value to default
+        //push to update allPossibleSoduko
+        for(let j=0;j<allPossibleSoduko.length;j++){
+            //check if this temp sudoku is not yet pushed
+            if(allPossibleSoduko[j].equals(tempSud)){
+                found1=true
+                break
+            }
+        }
+        if(!found1){
+            allPossibleSoduko.push(tempSud)
+
+             //check if its a real sudoku
+            if(allConditionsValid(tempSud)){
+                allRealSudoku.push(tempSud)
+
+            }
+        } 
     }    
+
+    return allRealSudoku;
 }
 
 
